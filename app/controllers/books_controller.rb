@@ -1,7 +1,16 @@
 class BooksController < ApplicationController
     def index 
+
+      if params[:user_id]
+        @books = Book.by_user_id(params[:user_id])
+        render json: @books
+      else
         @books = Book.all
         render json: @books
+      end
+
+        # @books = Book.all
+        # render json: @books
     end
 
     def new
@@ -20,6 +29,13 @@ class BooksController < ApplicationController
             render json: @book
         end
     end
+
+    def show
+      @book = Book.where(user_id: params[:user_id])  
+      render json: @book
+      
+    end
+
 
     def update
         @book = Book.find(params[:id])
